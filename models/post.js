@@ -1,5 +1,5 @@
 // Import the necessary libraries
-const { Sequelize, Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 // Define the Post model
