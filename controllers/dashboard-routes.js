@@ -36,12 +36,12 @@ router.get("/edit/:id", withAuth, (req, res) => {
   UserPost.findByPk(req.params.id) // Find a post by its primary key (ID)
     .then(dbPostData => {
       if (dbPostData) {
-        const gatherPost = dbPostData.get({ plain: true }); // Convert the data to a plain JS object
+        const post = dbPostData.get({ plain: true }); // Convert the data to a plain JS object
         
         // Render the edit-post view and pass in the post data
         res.render("edit-post", {
           layout: "dashboard",
-          gatherPost
+          post
         });
       } else {
         res.status(404).end();

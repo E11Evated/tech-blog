@@ -19,10 +19,10 @@ router.post("/", withAuth, (req, res) => {
 
 router.put('/:id', withAuth, async (req, res) => {
   try {
-    const [affectedRows] = await Post.update(req.body, {
+    const [affectedRows] = await UserPost.update(req.body, {
       where: {
         id: req.params.id,
-        user_id: req.session.user_id,
+        userId: req.session.userId,
       },
     });
 
