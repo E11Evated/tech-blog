@@ -3,10 +3,10 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 // Define the Post model
-class UserPost extends Model {}
+class Post extends Model {}
 
 // Define the Post table structure
-UserPost.init(
+Post.init(
   {
     title: DataTypes.STRING,  // Column for the post title
     body: DataTypes.STRING    // Column for the post body

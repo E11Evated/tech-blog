@@ -1,5 +1,5 @@
 const User = require('./User');
-const UserPost = require('./userPost');
+const UserPost = require('./Post');
 const Comment = require('./Comment');
 
 // Post belongs to User, defining foreign key and onDelete method

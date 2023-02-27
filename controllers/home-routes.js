@@ -1,10 +1,9 @@
 const router = require("express").Router();
-const { UserPost, Comment, User } = require("../models");
+const { Post, Comment, User } = require("../models");
 
-// Get all posts for homepage
+// get all posts for homepage
 router.get("/", (req, res) => {
-  UserPost.findAll({
-    // Include User model
+  Post.findAll({
     include: [User],
   })
     .then((dbPostData) => {
@@ -17,14 +16,14 @@ router.get("/", (req, res) => {
     });
 });
 
-// Get a single post with comments and user data
-router.get("/userPost/:id", (req, res) => {
-  UserPost.findByPk(req.params.id, {
+// get single post
+router.get("/post/:id", (req, res) => {
+  Post.findByPk(req.params.id, {
     include: [
-      User, // Include User model
+      User,
       {
         model: Comment,
-        include: [User], // Include User model for each comment
+        include: [User],
       },
     ],
   })
@@ -42,7 +41,6 @@ router.get("/userPost/:id", (req, res) => {
     });
 });
 
-// Render login page
 router.get("/login", (req, res) => {
   if (req.session.loggedIn) {
     res.redirect("/");
@@ -52,7 +50,6 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-// Render sign up page
 router.get("/signup", (req, res) => {
   if (req.session.loggedIn) {
     res.redirect("/");

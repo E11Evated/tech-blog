@@ -1,14 +1,11 @@
-// Require necessary dependencies and models
 const router = require("express").Router();
-const { UserPost } = require("../../models");
+const { Post, Comment, User } = require("../../models/");
 const withAuth = require("../../utils/auth");
 
-// Route for creating a new post
 router.post("/", withAuth, (req, res) => {
   const body = req.body;
   console.log(req.session.userId);
-  // Create a new post and assign its user ID to the session user ID
-  UserPost.create({ ...body, userId: req.session.userId })
+  Post.create({ ...body, userId: req.session.userId })
     .then(newPost => {
       res.json(newPost);
     })
@@ -17,11 +14,9 @@ router.post("/", withAuth, (req, res) => {
     });
 });
 
-// Route for updating an existing post
 router.put("/:id", withAuth, (req, res) => {
   console.log(req.body, req.params.id)
-  // Update post with specified ID and body from request
-  UserPost.update(req.body, {
+  Post.update(req.body, {
     where: {
       id: req.params.id
     }
@@ -38,11 +33,9 @@ router.put("/:id", withAuth, (req, res) => {
     });
 });
 
-// Route for deleting an existing post
 router.delete("/:id", withAuth, (req, res) => {
   console.log(req.body, req.params.id)
-  // Delete post with specified ID
-  UserPost.destroy({
+  Post.destroy({
     where: {
       id: req.params.id
     }
@@ -59,5 +52,4 @@ router.delete("/:id", withAuth, (req, res) => {
     });
 });
 
-// Export the router
 module.exports = router;
