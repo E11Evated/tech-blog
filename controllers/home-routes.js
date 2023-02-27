@@ -1,46 +1,73 @@
 const router = require("express").Router();
-const { Post, Comment, User } = require("../models");
+const { UserPost, Comment, User } = require("../models");
 
-// get all posts for homepage
+// Get all posts for homepage
 router.get("/", (req, res) => {
-  Post.findAll({
-    include: [User],
+  UserPost.findAll({
+    // Include User and Comment models
+    include: [
+      {
+        model: User,
+        attributes: ['username']
+      },
+      {
+        model: Comment,
+        include: [User]
+      }
+    ],
+    order: [['createdAt', 'DESC']]
   })
     .then((dbPostData) => {
       const posts = dbPostData.map((post) => post.get({ plain: true }));
+      console.log(posts);
 
-      res.render("all-posts", { posts });
+      res.render("all-posts", { 
+        posts,
+        loggedIn: req.session.loggedIn 
+      });
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).json(err);
     });
 });
 
-// get single post
-router.get("/post/:id", (req, res) => {
-  Post.findByPk(req.params.id, {
+// Get a single post with comments and user data
+router.get("/userPost/:id", (req, res) => {
+  UserPost.findOne({
+    where: {
+      id: req.params.id
+    },
     include: [
-      User,
+      {
+        model: User,
+        attributes: ['username']
+      },
       {
         model: Comment,
-        include: [User],
-      },
-    ],
+        include: [User]
+      }
+    ]
   })
     .then((dbPostData) => {
       if (dbPostData) {
         const post = dbPostData.get({ plain: true });
 
-        res.render("single-post", { post });
+        res.render("single-post", { 
+          post,
+          loggedIn: req.session.loggedIn 
+        });
       } else {
         res.status(404).end();
       }
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).json(err);
     });
 });
 
+// Render login page
 router.get("/login", (req, res) => {
   if (req.session.loggedIn) {
     res.redirect("/");
@@ -50,6 +77,7 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
+// Render sign up page
 router.get("/signup", (req, res) => {
   if (req.session.loggedIn) {
     res.redirect("/");

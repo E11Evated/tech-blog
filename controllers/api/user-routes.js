@@ -1,12 +1,14 @@
 const router = require("express").Router();
 const { User } = require("../../models");
 
+// Route to create a new user
 router.post("/", (req, res) => {
   User.create({
     username: req.body.username,
     password: req.body.password
   })
   .then(dbUserData => {
+    // Save user data to session and log user in
     req.session.save(() => {
       req.session.userId = dbUserData.id;
       req.session.username = dbUserData.username;
@@ -21,6 +23,7 @@ router.post("/", (req, res) => {
   });
 });
 
+// Route to log a user in
 router.post("/login", (req, res) => {
   User.findOne({
     where: {
@@ -32,6 +35,7 @@ router.post("/login", (req, res) => {
       return;
     }
 
+    // Check password for user
     const validPassword = dbUserData.checkPassword(req.body.password);
 
     if (!validPassword) {
@@ -39,6 +43,7 @@ router.post("/login", (req, res) => {
       return;
     }
 
+    // Save user data to session and log user in
     req.session.save(() => {
       req.session.userId = dbUserData.id;
       req.session.username = dbUserData.username;
@@ -49,6 +54,7 @@ router.post("/login", (req, res) => {
   });
 });
 
+// Route to log a user out
 router.post('/logout', (req, res) => {
   if (req.session.loggedIn) {
     req.session.destroy(() => {
@@ -60,6 +66,7 @@ router.post('/logout', (req, res) => {
   }
 });
 
+// Route to delete a user
 router.delete("/user/:id", (req, res) => {
   User.destroy({
     where: {

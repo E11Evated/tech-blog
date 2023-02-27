@@ -1,12 +1,12 @@
 // Import the necessary libraries
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection');
+const sequelize = require('../config/connection.js');
 
 // Define the Post model
-class Post extends Model {}
+class UserPost extends Model {}
 
 // Define the Post table structure
-Post.init(
+UserPost.init(
   {
     title: DataTypes.STRING,  // Column for the post title
     body: DataTypes.STRING    // Column for the post body
@@ -17,4 +17,4 @@ Post.init(
 );
 
 // Export the Post model for use in other files
-module.exports = Post;
+module.exports = UserPost;

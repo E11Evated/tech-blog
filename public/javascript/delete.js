@@ -1,15 +1,22 @@
-const deletePostHandler = async function(event) {
-    console.log("clicked", event)
+const deleteHandler = async function(event) {
     event.preventDefault();
-    const postId = document.getElementById('post-id')
-
-    fetch("/api/post/" + postId.value, {
-        method: "delete"
-    })
-    .then(function() {
-        document.location.replace("/dashboard");
-    })
-    .catch(err => console.log(err))
-}
-
-document.querySelector("#delete-btn").addEventListener("click", deletePostHandler);
+    
+    // get the post ID from the form
+    const postId = document.querySelector('input[name="post-id"]').value;
+  
+    // send a DELETE request to the server
+    const response = await fetch(`/api/userPost/${postId}`, {
+      method: 'DELETE'
+    });
+  
+    if (response.ok) {
+      // redirect to the dashboard page if the post was deleted
+      document.location.replace('/dashboard');
+    } else {
+      alert('Failed to delete post');
+    }
+  };
+  
+  // add a click event listener to the delete button
+  const deleteBtn = document.querySelector('#delete-btn');
+  deleteBtn.addEventListener('click', deleteHandler);
