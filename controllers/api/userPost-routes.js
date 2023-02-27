@@ -1,6 +1,6 @@
 // Require necessary dependencies and models
 const router = require("express").Router();
-const { UserPost, Comment, User } = require("../../models");
+const { UserPost } = require("../../models");
 const withAuth = require("../../utils/auth");
 
 // Route for creating a new post
