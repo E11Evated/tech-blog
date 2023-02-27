@@ -17,4 +17,4 @@ Post.init(
 );
 
 // Export the Post model for use in other files
-module.exports = UserPost;
+module.exports = Post;
