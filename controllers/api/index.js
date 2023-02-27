@@ -8,6 +8,6 @@ const commentRoutes = require('./comment-routes');
 // Use imported routes for user, post, and comment
 router.use('/user', userRoutes);
 router.use('/userPost', userPostRoutes);
-router.use('/Comment', commentRoutes);
+router.use('/comment', commentRoutes);
 
 module.exports = router;
