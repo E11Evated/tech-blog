@@ -1,15 +1,15 @@
 const User = require('./User');
-const Post = require('../models/Post');
+const UserPost = require('./userPost');
 const Comment = require('./Comment');
 
 // Post belongs to User, defining foreign key and onDelete method
-Post.belongsTo(User, {
+UserPost.belongsTo(User, {
   foreignKey: 'userId',
   onDelete: 'CASCADE'
 });
 
 // Post has many comments, defining foreign key and onDelete method
-Post.hasMany(Comment, {
+UserPost.hasMany(Comment, {
   foreignKey: 'postId',
   onDelete: 'CASCADE'
 });
@@ -23,5 +23,5 @@ Comment.belongsTo(User, {
 module.exports = {
   User,
   Comment,
-  Post
+  UserPost
 };

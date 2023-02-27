@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const { Post, Comment, User } = require("../models");
+const { UserPost, Comment, User } = require("../models");
 
 // Get all posts for homepage
 router.get("/", (req, res) => {
-  Post.findAll({
+  UserPost.findAll({
     // Include User model
     include: [User],
   })
@@ -18,8 +18,8 @@ router.get("/", (req, res) => {
 });
 
 // Get a single post with comments and user data
-router.get("/post/:id", (req, res) => {
-  Post.findByPk(req.params.id, {
+router.get("/userPost/:id", (req, res) => {
+  UserPost.findByPk(req.params.id, {
     include: [
       User, // Include User model
       {
